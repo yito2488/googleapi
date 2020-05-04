@@ -1,32 +1,48 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <h1>Google Sentimental Analysis</h1>
+    <hr />
+    <div>
+      <b-form-textarea id="textarea" v-model="text" placeholder="Enter something..." rows="3" max-rows="6"></b-form-textarea>
     </div>
-    <router-view/>
+
+    <div>
+      <b-button block variant="primary" v-on:click="apiRequest">Start</b-button>
+    </div>
+
+    <pre class="mt-3 mb-0">{{ text }}</pre>
+    <pre class="mt-3 mb-0">{{ responseText }}</pre>
   </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+<script>
+//import axios from 'axios';
+export default {
+  data() {
+    return {
+      text: '',
+      postBody: { text: 'テスト' },
+      responseText: 'aaa',
+    };
+  },
+  methods: {
+    apiRequest() {
+      this.postBody.text = this.text;
+      this.$api
+        .post('/sentiment', this.postBody)
+        .then((res) => {
+          console.log(res);
+          this.responseText = res.data;
+          //console.log("response: " + JSON.stringify(res));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    analyzeJson(response) {
+      this.responseText = response;
+      console.log(response);
+    },
+  },
+};
+</script>
