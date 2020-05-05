@@ -1,7 +1,8 @@
-# gdemo
+# google api demo
 
 ## How to run this program
 
+0. cd into each directory
 1. Run API Server
 2. Run WebServer
 
@@ -11,17 +12,12 @@
 2. Send request to Google API server, and get results.
 3. Send back to the clients
 
-### How to test with curl command?
+## How to test with curl command?
 
-#### 1. Enter to ApiServer directory
-
-#### 2. Create ".env" file on the ApiServer Directory
-
-GOOGLE_APPLICATION_CREDENTIALS="/YOUR_DIRECTORY_PATH/google.key"
-
-#### 3. Run server with "npm start" command
-
-#### 4. Test it
+1. Enter to ApiServer directory
+2. Create ".env" file on the ApiServer Directory( GOOGLE_APPLICATION_CREDENTIALS="/YOUR_DIRECTORY_PATH/google.key")
+3. Run server with "npm start" command
+4. Test it
 
 curl -X POST http://localhost:3000/sentiment -H “Accept: application/json” -H “Content-type: application/json” -d ‘{ “text” : “今日は天気が晴れだったので、非常に気分が良い。昨日は雨で洗濯物が乾きませんでした。" }'
 
