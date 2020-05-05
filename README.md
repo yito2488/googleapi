@@ -12,7 +12,7 @@
 2. Send request to Google API server, and get results.
 3. Send back to the clients
 
-## How to test with curl command?
+### How to test with curl command?
 
 1. Enter to ApiServer directory
 2. Create ".env" file on the ApiServer Directory( GOOGLE_APPLICATION_CREDENTIALS="/YOUR_DIRECTORY_PATH/google.key")
