@@ -6,7 +6,7 @@
     <div class="container">
       <b-form-textarea id="textarea" v-model="text" placeholder="Enter something..." class="mx-auto m-3" rows="3" max-rows="6"></b-form-textarea>
       <p>
-        <b-button block variant="primary" v-on:click="apiRequest">Start</b-button>
+        <b-button block variant="primary" v-on:click="apiRequest">Analyze</b-button>
       </p>
       <pre class="mt-3 mb-0">Text: {{ text }}</pre>
     </div>
@@ -40,9 +40,10 @@ export default {
     return {
       text: '',
       postBody: { text: 'テスト' },
-      overall: { face: '', score: '-', magnitude: '-', language: 'jp' },
+      overall: { face: '', score: '-', magnitude: '-', language: '-' },
       sentenses: {},
       facelists: { heart: '😍', smile: '😃', slightlySmile: '🙂', neutral: '😐', anguished: '😧', confounded: '😖', pounting: '😡' },
+      sentense: [],
     };
   },
   methods: {
@@ -52,7 +53,7 @@ export default {
         .post('/sentiment', this.postBody)
         .then((res) => {
           console.log(res);
-          this.analyzeJson(res.data);
+          this.analyzeOverallJson(res.data);
           //this.responseText = res.data;
           //console.log("response: " + JSON.stringify(res));
         })
@@ -60,7 +61,7 @@ export default {
           console.log(error);
         });
     },
-    analyzeJson(response) {
+    analyzeOverallJson(response) {
       this.overall = {
         score: response.documentSentiment.score.toFixed(2),
         magnitude: response.documentSentiment.magnitude.toFixed(2),
