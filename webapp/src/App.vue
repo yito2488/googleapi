@@ -75,8 +75,8 @@ export default {
         //prepare valuables in advance
         const sentiment = {};
         const content = obj.sentences[i].text.content;
-        const score = obj.sentences[i].sentiment.score;
-        const magnitude = obj.sentences[i].sentiment.magnitude;
+        const score = obj.sentences[i].sentiment.score.toFixed(2);
+        const magnitude = obj.sentences[i].sentiment.magnitude.toFixed(2);
 
         // store into the object
         // This object order is the same as the table items
