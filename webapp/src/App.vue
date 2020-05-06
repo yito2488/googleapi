@@ -12,6 +12,7 @@
     </div>
 
     <div class="container">
+      <h3>Overall</h3>
       <table class="table table-boarderd m-3">
         <thead>
           <tr>
@@ -28,6 +29,12 @@
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="container">
+      <h3>Details</h3>
+      <b-table striped hover :items="items"></b-table>
+      <hr />
       Detected Language: {{ overall.language }}
     </div>
   </div>
@@ -41,9 +48,8 @@ export default {
       text: '',
       postBody: { text: 'テスト' },
       overall: { face: '', score: '-', magnitude: '-', language: '-' },
-      sentenses: {},
       facelists: { heart: '😍', smile: '😃', slightlySmile: '🙂', neutral: '😐', anguished: '😧', confounded: '😖', pounting: '😡' },
-      sentense: [],
+      items: [],
     };
   },
   methods: {
@@ -53,13 +59,33 @@ export default {
         .post('/sentiment', this.postBody)
         .then((res) => {
           console.log(res);
+          this.items = [];
           this.analyzeOverallJson(res.data);
+          this.analyzeEachtextJson(res.data);
           //this.responseText = res.data;
           //console.log("response: " + JSON.stringify(res));
         })
         .catch((error) => {
           console.log(error);
         });
+    },
+    analyzeEachtextJson(response) {
+      const obj = response;
+      for (let i = 0; i < obj.sentences.length; i++) {
+        //prepare valuables in advance
+        const sentiment = {};
+        const content = obj.sentences[i].text.content;
+        const score = obj.sentences[i].sentiment.score;
+        const magnitude = obj.sentences[i].sentiment.magnitude;
+
+        // store into the object
+        // This object order is the same as the table items
+        sentiment.content = content;
+        sentiment.expression = this.selectExpression(score, magnitude);
+        sentiment.score = score;
+        sentiment.magnitude = magnitude;
+        this.items.push(sentiment);
+      }
     },
     analyzeOverallJson(response) {
       this.overall = {
